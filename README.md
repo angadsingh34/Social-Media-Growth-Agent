@@ -77,7 +77,7 @@ docker-compose up --build
 uvicorn src.api.main:app --reload --port 8000
 
 # Terminal 2 — UI
-streamlit run src/ui/streamlit_app.py # run export PYTHONPATH=. first if src error
+streamlit run src/ui/streamlit_app.py
 ```
 
 ## Running Tests
@@ -105,20 +105,21 @@ Full OpenAPI spec available at: http://localhost:8000/openapi.json
 
 ## Pipeline Walkthrough
 
-1. **Profile Analysis** — Enter your LinkedIn/X handle. The Profile Intelligence Agent
-   analyses your writing style, content themes, posting cadence, and engagement patterns.
+Once the UI is open, follow the 5-step wizard in the sidebar:
+
+1. **Profile Analysis** — Enter any username (e.g. jane-ai-engineer) in the text box. Select linkedin or twitter.
+   Click Analyse Profile. Since USE_MOCK_DATA=true, it will return realistic mock data instantly without hitting any real API
 
 2. **Competitive Intelligence** — The Competitive Landscape Agent discovers 3-5 peer
    profiles, identifies content gaps, and surfaces trending topics.
 
 3. **Calendar Generation + HITL** — A 14-day calendar is generated from your content DNA
-   and competitive intelligence. Revise it in natural language until you approve it.
+   and competitive intelligence. Revise it in natural language (e.g. "Replace Day 3 with a post about LangGraph") until you approve it.
 
 4. **Content Generation** — Three specialised agents (Copy, Hashtag, Visual Concept) run
-   in parallel for each calendar entry. Review and regenerate individual components.
+   in parallel for each calendar entry. Review each post, click Regenerate Body to get a new version, or click Approve when satisfied.
 
-5. **Publishing** — Publish approved posts directly via LinkedIn Share API / X API v2, or
-   use clipboard mode for manual posting.
+5. **Publishing** — Since `ENABLE_PUBLISHING=false`, the app shows a clipboard mode — the final post text is displayed for you to copy and paste manually. To enable real publishing, set `ENABLE_PUBLISHING=true` and add your LinkedIn/Twitter API credentials to .env.
 
 ## Configuration
 
@@ -137,3 +138,11 @@ Full OpenAPI spec available at: http://localhost:8000/openapi.json
 - The LangGraph pipeline graph is in `src/orchestrator/graph.py`.
 - The HITL review loop is implemented in `src/orchestrator/calendar_orchestrator.py`.
 - Agent metrics (latency, token usage) are surfaced via the `/metrics` endpoint and logs.
+
+## Troubleshooting
+
+- **ModuleNotFoundError: No module named 'src'** — You forgot to set PYTHONPATH. Run `export PYTHONPATH=.` (Mac/Linux) before any command.
+- **groq.AuthenticationError** — Your `GROQ_API_KEY` in .env is wrong or missing. Double-check it has no extra spaces.
+- **Streamlit shows a blank screen or errors** — Make sure the FastAPI server (port 8000) is running first. The UI depends on it for database writes.
+- **faiss installation fails on Windows** — Run `pip install faiss-cpu --index-url https://pypi.org/simple/` or use the Docker path instead.
+- **First run is slow** — The embedding model (all-MiniLM-L6-v2, ~90 MB) downloads on first startup. This only happens once and is cached afterward.
