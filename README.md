@@ -1,6 +1,6 @@
-# 🚀 Autonomous Social Media Growth Agent
+# Autonomous Social Media Growth Agent
 
-A production-grade multi-agent AI system for social media profile analysis,
+A multi-agent AI system for social media profile analysis,
 competitive intelligence, content calendar generation (with Human-in-the-Loop review),
 content creation, and publishing to LinkedIn and X (Twitter).
 
@@ -130,7 +130,7 @@ Full OpenAPI spec available at: http://localhost:8000/openapi.json
 | `LOG_LEVEL`         | `INFO`          | Logging verbosity                    |
 | `DATABASE_URL`      | `sqlite:///...` | Database connection string           |
 
-## Notes for Evaluators
+## Notes
 
 - All components run on free-tier services and local infrastructure.
 - `USE_MOCK_DATA=true` (default) enables full demo without any API credits.
