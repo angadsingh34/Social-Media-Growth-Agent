@@ -51,7 +51,7 @@ class Settings(BaseSettings):
     groq_api_key: str = Field(default="", description="Groq API key")
     hf_api_key: str = Field(default="", description="Hugging Face API key")
     llm_model: str = Field(
-        default="llama-3.1-8b-instant",
+        default="llama-3.3-70b-versatile",
         description="Default Groq model identifier",
     )
     llm_temperature: float = Field(default=0.7, ge=0.0, le=2.0)
