@@ -32,7 +32,7 @@ class LLMService:
 
     def __init__(
         self,
-        model_name: Optional[str] = "llama-3.3-70b-versatile",
+        model_name: Optional[str] = "llama-3.1-8b-instant",
         temperature: Optional[float] = None,
         max_tokens: Optional[int] = None,
     ) -> None:
